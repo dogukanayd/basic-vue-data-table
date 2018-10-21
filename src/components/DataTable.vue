@@ -25,7 +25,7 @@
           </tbody>
       </table>
     </div>
-    <p><a href="" class="float-left"><i class="fas fa-arrow-left"></i> Previous</a> <a href="" class="float-right">Next <i class="fas fa-arrow-right"></i></a></p>
+    <p><button @click="prevPage" class="float-left"><i class="fas fa-arrow-left"></i> Previous</button> <button @click="nextPage" class="float-right">Next <i class="fas fa-arrow-right"></i></button></p>
   </div>
 </template>
 
@@ -37,7 +37,9 @@ export default {
     users: [],
     currentSort:'name',
     currentSortDir:'asc',
-    search: ''
+    search: '',
+    pageSize: 5,
+    currentPage: 1
   }),
 
   methods:{
@@ -47,6 +49,12 @@ export default {
       }
       this.currentSort = s;
     },
+    nextPage:function() {
+      if((this.currentPage*this.pageSize) < this.users.length) this.currentPage++;
+    },
+    prevPage:function() {
+      if(this.currentPage > 1) this.currentPage--;
+    }
   },
 
   computed: {
@@ -57,13 +65,21 @@ export default {
         if(a[this.currentSort] < b[this.currentSort]) return -1 * modifier;
         if(a[this.currentSort] > b[this.currentSort]) return 1 * modifier;
         return 0;
+      }).filter((row, index) => {
+        let start = (this.currentPage-1)*this.pageSize;
+        let end = this.currentPage*this.pageSize;
+        if(index >= start && index < end) return true;
       });
     },
 
     filteredList () {
       return this.users.filter((data) => {
           return data.name.toLowerCase().match(this.search.toLowerCase())
-      });
+      }).filter((row, index) => {
+        let start = (this.currentPage-1)*this.pageSize;
+        let end = this.currentPage*this.pageSize;
+        if(index >= start && index < end) return true;
+      });;
     }
   },
 
@@ -78,14 +94,6 @@ export default {
 </script>
 
 <style>
-.success {
-  background-color: #04f90063;
-}
-
-.fail {
-  background-color: #ff000063;
-}
-
 th {
   cursor:pointer;
   /* width: 500px !important; */
@@ -94,12 +102,6 @@ th {
 
 tr {
   white-space: nowrap;
-}
-
-.first-col {
-    position: absolute;
-    width: 5em;
-    margin-left: -5em;
 }
 
 </style>
