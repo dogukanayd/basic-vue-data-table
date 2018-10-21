@@ -30,6 +30,7 @@
 </template>
 
 <script>
+/*eslint-disable*/
 import axios from 'axios';
 
 export default {
@@ -38,6 +39,7 @@ export default {
     currentSort:'name',
     currentSortDir:'asc',
     search: '',
+    searchSelection: '',
     pageSize: 5,
     currentPage: 1
   }),
@@ -74,12 +76,16 @@ export default {
 
     filteredList () {
       return this.users.filter((data) => {
-          return data.name.toLowerCase().match(this.search.toLowerCase())
+        let email = data.email.toLowerCase().match(this.search.toLowerCase());
+        let name = data.name.toLowerCase().match(this.search.toLowerCase());
+        let city = data.address.city.toLowerCase().match(this.search.toLowerCase());
+        let phone = data.phone.toLowerCase().match(this.search.toLowerCase());
+        return email || name || city || phone;
       }).filter((row, index) => {
         let start = (this.currentPage-1)*this.pageSize;
         let end = this.currentPage*this.pageSize;
         if(index >= start && index < end) return true;
-      });;
+      });
     }
   },
 
