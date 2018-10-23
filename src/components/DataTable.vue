@@ -1,7 +1,7 @@
 <template>
   <div class="col-md-12">
     <div class="form-group">
-      <input type="text" class="form-control" v-model="search" placeholder="Search by user name">
+      <input type="text" class="form-control" v-model="search" placeholder="Search">
     </div>
     <div class="table-responsive">
       <table class="table table-striped table-bordered" style="width:100%">
@@ -25,7 +25,8 @@
           </tbody>
       </table>
     </div>
-    <p><button @click="prevPage" class="float-left"><i class="fas fa-arrow-left"></i> Previous</button> <button @click="nextPage" class="float-right">Next <i class="fas fa-arrow-right"></i></button></p>
+ <button @click="prevPage" class="float-left btn btn-outline-info btn-sm"><i class="fas fa-arrow-left"></i> Previous</button> 
+ <button @click="nextPage" class="float-right btn btn-outline-info btn-sm">Next <i class="fas fa-arrow-right"></i></button>
   </div>
 </template>
 
